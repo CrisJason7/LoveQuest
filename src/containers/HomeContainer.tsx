@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import Home from "../pages/Home/Home"; // Import component trình bày
-// import { fetchHomeData } from '../services/api'; // Một hàm fetch dữ liệu
+import { useNavigate } from "react-router-dom";
 
 const HomeContainer: React.FC = () => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  return <div>{loading ? <div>Loading...</div> : <Home data={data} />}</div>;
+  const handleQuizSelection = (quizType: string) => {
+    // Điều hướng đến trang category và lưu trạng thái quizType (self/partner)
+    navigate("/category", { state: { quizType } });
+  };
+
+  return <Home handleQuizSelection={handleQuizSelection} />;
 };
 
 export default HomeContainer;
