@@ -1,5 +1,12 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMale,
+  faFemale,
+  faVenusMars
+} from "@fortawesome/free-solid-svg-icons";
 import GeneralButton from "../../components/Button/GeneralButton";
+import colors from "../../constants/colors"; // Import màu từ file colors.ts
 
 interface CategoryProps {
   selectedCategory: number | null;
@@ -24,32 +31,32 @@ const Category: React.FC<CategoryProps> = ({
   handleCategorySelection
 }) => {
   return (
-    <div className="min-h-screen flex flex-col items-center p-8">
-      <h2 className="text-4xl font-extrabold text-white mb-10">
-        Hãy chọn danh mục!
-      </h2>
+    <div
+      className="min-h-screen flex flex-col items-center p-8 text-white"
+      style={{ paddingTop: "5rem" }}
+    >
+      <h2 className="text-4xl font-extrabold mb-10">Hãy chọn danh mục!</h2>
 
-      {/* Chọn danh mục câu hỏi */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-16">
         {questionCategories.map(category => (
           <button
             key={category.id}
             onClick={() => handleCategoryChange(category.id)}
-            className={`relative py-8 px-12 rounded-full shadow-2xl text-white font-bold text-2xl transition-all duration-300 transform hover:scale-110 ${
-              selectedCategory === category.id
-                ? "bg-yellow-300 text-red-600 border-4 border-red-600"
-                : "bg-green-400 hover:bg-green-500"
-            }`}
+            className={`relative py-6 px-10 rounded-full shadow-2xl font-bold text-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg`}
             style={{
-              borderRadius: "50%"
+              backgroundColor:
+                selectedCategory === category.id
+                  ? colors.tertiary
+                  : colors.primary,
+              color: selectedCategory === category.id ? "#ffffff" : "#ffffff"
             }}
           >
-            <span className="absolute -top-8 -right-8 text-6xl">
+            <span className="absolute -top-6 -right-6 text-4xl">
               {category.icon}
             </span>
             {category.name}
             {selectedCategory === category.id && (
-              <span className="absolute top-2 right-2 text-3xl text-green-700 animate-bounce">
+              <span className="absolute top-2 right-2 text-2xl text-green-700 animate-bounce">
                 ✔
               </span>
             )}
@@ -57,50 +64,56 @@ const Category: React.FC<CategoryProps> = ({
         ))}
       </div>
 
-      {/* Chọn loại câu hỏi */}
       {selectedCategory && (
         <div className="mt-8 text-center">
-          <h3 className="text-3xl font-semibold text-white mb-8">
+          <h3 className="text-3xl font-semibold mb-8">
             Bạn muốn chọn loại câu hỏi nào?
           </h3>
-          <div className="flex justify-center space-x-10">
+          <div className="flex justify-center space-x-8">
             <button
               onClick={() => handleGenderChange("male")}
-              className={`py-4 px-8 rounded-lg shadow-lg text-white font-bold text-xl transition-all duration-300 transform hover:scale-110 ${
-                selectedGender === "male"
-                  ? "bg-blue-600 text-white animate-pulse"
-                  : "bg-blue-400 hover:bg-blue-600"
-              }`}
+              className="py-4 px-6 rounded-lg shadow-lg font-bold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-4"
+              style={{
+                backgroundColor:
+                  selectedGender === "male" ? "#005F73" : "#89CFF0",
+                color: "#ffffff"
+              }}
             >
-              Nam
+              <FontAwesomeIcon icon={faMale} className="w-6 h-6" />
+              <span>Nam</span>
             </button>
+
             <button
               onClick={() => handleGenderChange("female")}
-              className={`py-4 px-8 rounded-lg shadow-lg text-white font-bold text-xl transition-all duration-300 transform hover:scale-110 ${
-                selectedGender === "female"
-                  ? "bg-pink-600 text-white animate-pulse"
-                  : "bg-pink-400 hover:bg-pink-600"
-              }`}
+              className="py-4 px-6 rounded-lg shadow-lg font-bold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-4"
+              style={{
+                backgroundColor:
+                  selectedGender === "female" ? "#D96C75" : "#FFB6C1",
+                color: "#ffffff"
+              }}
             >
-              Nữ
+              <FontAwesomeIcon icon={faFemale} className="w-6 h-6" />
+              <span>Nữ</span>
             </button>
+
             <button
               onClick={() => handleGenderChange("both")}
-              className={`py-4 px-8 rounded-lg shadow-lg text-white font-bold text-xl transition-all duration-300 transform hover:scale-110 ${
-                selectedGender === "both"
-                  ? "bg-purple-600 text-white animate-pulse"
-                  : "bg-purple-400 hover:bg-purple-600"
-              }`}
+              className="py-4 px-6 rounded-lg shadow-lg font-bold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-4"
+              style={{
+                backgroundColor:
+                  selectedGender === "both" ? "#9370DB" : "#D8BFD8",
+                color: "#ffffff"
+              }}
             >
-              Cả hai
+              <FontAwesomeIcon icon={faVenusMars} className="w-6 h-6" />
+              <span>Cả hai</span>
             </button>
           </div>
         </div>
       )}
 
-      {/* Hiển thị lựa chọn */}
       {selectedCategory && selectedGender && (
-        <div className="mt-10">
+        <div className="mt-12">
           <GeneralButton onClick={handleCategorySelection}>
             Tiếp tục
           </GeneralButton>

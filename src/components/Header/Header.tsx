@@ -22,7 +22,7 @@ const Header: React.FC = () => {
 
   return (
     <header
-      className="text-white shadow-lg py-4"
+      className="fixed top-0 left-0 w-full z-50 text-white shadow-lg py-4 bg-gradient-to-r from-primary to-secondary"
       style={{ backgroundColor: colors.primary }}
     >
       <div className="container mx-auto flex justify-between items-center">

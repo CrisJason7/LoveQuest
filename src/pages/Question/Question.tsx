@@ -1,5 +1,6 @@
-// src/pages/QuestionPage.tsx
 import React from "react";
+import colors from "../../constants/colors";
+import QuestionList from "./components/QuestionList";
 
 interface QuestionPageProps {
   questionIndex: number;
@@ -8,46 +9,40 @@ interface QuestionPageProps {
     text: string;
     options: string[];
   }[];
-  handleAnswer: (answer: string) => void;
-  handleNext: () => void;
-  handlePrev: () => void;
-  handleSubmit: () => void;
   answers: { questionId: number; answer: string }[];
+  handleAnswer: (answer: string) => void;
+  handlePrev: () => void;
+  handleNext: () => void;
+  handleSelectQuestion: (index: number) => void;
+  handleSubmit: () => void;
+  allAnswered: boolean;
 }
 
 const QuestionPage: React.FC<QuestionPageProps> = ({
   questionIndex,
   questions,
+  answers,
   handleAnswer,
-  handleNext,
   handlePrev,
+  handleNext,
+  handleSelectQuestion,
   handleSubmit,
-  answers
+  allAnswered // Nhận trạng thái tất cả đã trả lời
 }) => {
   const currentQuestion = questions[questionIndex];
-  const selectedAnswer = answers.find(
-    a => a.questionId === currentQuestion.id
-  )?.answer;
-
-  const progressPercentage = ((questionIndex + 1) / questions.length) * 100;
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-4">
-      {/* Progress Bar */}
-      <div className="w-full max-w-xl mt-4">
-        <div className="w-full bg-gray-300 rounded-full h-3">
-          <div
-            className="bg-blue-500 h-3 rounded-full"
-            style={{ width: `${progressPercentage}%` }}
-          ></div>
-        </div>
-        <p className="text-right text-sm text-gray-700 mt-2">
-          Câu hỏi {questionIndex + 1} / {questions.length}
-        </p>
-      </div>
+    <div className="min-h-screen p-4" style={{ paddingTop: "5rem" }}>
+      {/* Hiển thị danh sách các câu hỏi */}
+      <QuestionList
+        questions={questions}
+        questionIndex={questionIndex}
+        answers={answers}
+        handleSelectQuestion={handleSelectQuestion}
+      />
 
       {/* Question Section */}
-      <div className="w-full max-w-xl bg-white shadow-lg rounded-lg mt-6 p-8">
+      <div className="w-full max-w-xl mx-auto mt-6">
         <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
           {currentQuestion.text}
         </h2>
@@ -55,11 +50,12 @@ const QuestionPage: React.FC<QuestionPageProps> = ({
           {currentQuestion.options.map((option, index) => (
             <button
               key={index}
-              className={`py-3 px-4 rounded-lg text-lg font-medium border-2 
+              className={`py-3 px-4 rounded-lg text-lg font-medium border-2 transition-all duration-300 transform hover:scale-105
                 ${
-                  selectedAnswer === option
-                    ? "border-blue-600 bg-blue-100 text-blue-600"
-                    : "border-gray-300 text-gray-700 hover:bg-gray-200"
+                  answers.find(a => a.questionId === currentQuestion.id)
+                    ?.answer === option
+                    ? `border-${colors.primary} bg-${colors.primary} bg-opacity-30 text-white shadow-lg`
+                    : "border-gray-300 text-gray-700 hover:bg-gray-100"
                 }`}
               onClick={() => handleAnswer(option)}
             >
@@ -70,29 +66,37 @@ const QuestionPage: React.FC<QuestionPageProps> = ({
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex justify-between mt-6 w-full max-w-xl">
+      <div className="flex justify-between mt-6 w-full max-w-xl mx-auto">
         <button
           onClick={handlePrev}
-          className="py-2 px-4 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+          className="py-2 px-4 rounded-lg text-white transition-all duration-300 hover:opacity-90 shadow-lg transform hover:scale-105"
           disabled={questionIndex === 0}
+          style={{
+            backgroundColor: questionIndex === 0 ? "#BDBDBD" : colors.secondary
+          }}
         >
           Quay lại
         </button>
         <button
           onClick={handleNext}
-          className="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+          className="py-2 px-4 rounded-lg text-white transition-all duration-300 hover:opacity-90 shadow-lg transform hover:scale-105"
           disabled={questionIndex === questions.length - 1}
+          style={{
+            backgroundColor: colors.primary
+          }}
         >
           Tiếp tục
         </button>
       </div>
 
-      {/* Submit Button */}
-      {questionIndex === questions.length - 1 && (
-        <div className="w-full max-w-xl mt-6">
+      {allAnswered && (
+        <div className="w-full max-w-xl mx-auto mt-6">
           <button
             onClick={handleSubmit}
-            className="w-full py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 text-lg font-semibold"
+            className="w-full py-3 rounded-lg text-white transition-all duration-300 hover:opacity-90 shadow-lg transform hover:scale-105 text-lg font-semibold"
+            style={{
+              backgroundColor: colors.tertiary
+            }}
           >
             Submit
           </button>

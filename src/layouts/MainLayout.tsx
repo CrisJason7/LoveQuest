@@ -25,17 +25,17 @@ const MainLayout: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative">
+    <div
+      className="relative min-h-screen"
+      style={{
+        background: `linear-gradient(to bottom, ${colors.primary}, ${colors.secondary})`
+      }}
+    >
       {init && (
         <Particles
           id="tsparticles"
           particlesLoaded={particlesLoaded}
           options={{
-            background: {
-              color: {
-                value: colors.background
-              }
-            },
             particles: {
               color: {
                 value: [
@@ -44,66 +44,60 @@ const MainLayout: React.FC = () => {
                   "#B4F8C8",
                   "#FBE7C6",
                   "#FFC9AE",
-                  "#FFAEE5",
-                  "#A0C6E7",
-                  "#A0E7C2",
-                  "#B4F8EA",
-                  "#C2F8B4",
-                  "#F4FBC6",
-                  "#FBCDC6"
+                  "#FFAEE5"
                 ]
               },
               move: {
                 angle: {
                   offset: 0,
-                  value: 50
+                  value: 45
                 },
                 direction: "bottom",
                 enable: true,
                 outModes: {
-                  default: "split"
+                  default: "out"
                 },
-                speed: 3
+                speed: 2
               },
               number: {
-                value: 300
+                value: 150
               },
               opacity: {
-                value: 1
+                value: 0.7
               },
               shape: {
                 type: "heart"
               },
               size: {
-                value: 16
+                value: 10
               },
               roll: {
                 darken: {
                   enable: true,
-                  value: 30
+                  value: 10
                 },
                 enlighten: {
                   enable: true,
-                  value: 30
+                  value: 20
                 },
                 enable: true,
                 mode: "horizontal",
                 speed: {
-                  min: 5,
-                  max: 15
+                  min: 3,
+                  max: 8
                 }
               },
               zIndex: {
                 value: {
                   min: 0,
-                  max: 100
+                  max: 50
                 },
-                opacityRate: 0,
-                velocityRate: 2
+                opacityRate: 0.5,
+                velocityRate: 1
               }
             }
           }}
-          className="absolute z-10"
+          className="absolute inset-0 z-10"
         />
       )}
       <div className="relative z-20 flex flex-col min-h-screen">
