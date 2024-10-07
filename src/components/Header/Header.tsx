@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import LoginModal from "../Modal/LoginModal";
+import colors from "../../constants/colors";
 
 const Header: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -20,7 +21,10 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-blue-600 text-white shadow-lg py-4">
+    <header
+      className="text-white shadow-lg py-4"
+      style={{ backgroundColor: colors.primary }}
+    >
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-3xl font-bold">LoveQuest</h1>
 
@@ -46,7 +50,8 @@ const Header: React.FC = () => {
 
         <div>
           <button
-            className="bg-white text-blue-600 font-semibold py-2 px-4 rounded-lg hover:bg-gray-100 transition-all duration-300"
+            className="text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300"
+            style={{ backgroundColor: colors.secondary }}
             onClick={toggleModal}
           >
             Đăng nhập

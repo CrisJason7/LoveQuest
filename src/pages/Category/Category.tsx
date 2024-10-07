@@ -1,80 +1,111 @@
 import React from "react";
+import GeneralButton from "../../components/Button/GeneralButton";
 
 interface CategoryProps {
-  category: string;
-  setCategory: (value: string) => void;
-  questionType: string;
-  setQuestionType: (value: string) => void;
-  categories: string[];
-  questionTypes: string[];
-  handleConfirm: () => void;
+  selectedCategory: number | null;
+  selectedGender: string;
+  handleCategoryChange: (id: number) => void;
+  handleGenderChange: (gender: string) => void;
+  handleCategorySelection: () => void;
 }
 
+const questionCategories = [
+  { id: 1, name: "Tình yêu", icon: "💖" },
+  { id: 2, name: "Công việc", icon: "💼" },
+  { id: 3, name: "Sở thích", icon: "🎨" },
+  { id: 4, name: "Gia đình", icon: "🏠" }
+];
+
 const Category: React.FC<CategoryProps> = ({
-  category,
-  setCategory,
-  questionType,
-  setQuestionType,
-  categories,
-  questionTypes,
-  handleConfirm
+  selectedCategory,
+  selectedGender,
+  handleCategoryChange,
+  handleGenderChange,
+  handleCategorySelection
 }) => {
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-        <h1 className="text-2xl font-bold mb-6 text-center">
-          Chọn chủ đề và loại câu hỏi
-        </h1>
+    <div className="min-h-screen flex flex-col items-center p-8">
+      <h2 className="text-4xl font-extrabold text-white mb-10">
+        Hãy chọn danh mục!
+      </h2>
 
-        {/* Chọn danh mục chủ đề */}
-        <div className="mb-4">
-          <label className="block text-gray-700 font-semibold mb-2">
-            Danh mục chủ đề:
-          </label>
-          <select
-            value={category}
-            onChange={e => setCategory(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">-- Chọn danh mục --</option>
-            {categories.map(cat => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Chọn loại câu hỏi */}
-        <div className="mb-4">
-          <label className="block text-gray-700 font-semibold mb-2">
-            Loại câu hỏi:
-          </label>
-          <select
-            value={questionType}
-            onChange={e => setQuestionType(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">-- Chọn loại câu hỏi --</option>
-            {questionTypes.map(type => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Nút xác nhận */}
-        <div className="flex justify-center mt-6">
+      {/* Chọn danh mục câu hỏi */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-16">
+        {questionCategories.map(category => (
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300"
-            onClick={handleConfirm}
-            disabled={!category || !questionType} // Disable nút nếu chưa chọn đủ
+            key={category.id}
+            onClick={() => handleCategoryChange(category.id)}
+            className={`relative py-8 px-12 rounded-full shadow-2xl text-white font-bold text-2xl transition-all duration-300 transform hover:scale-110 ${
+              selectedCategory === category.id
+                ? "bg-yellow-300 text-red-600 border-4 border-red-600"
+                : "bg-green-400 hover:bg-green-500"
+            }`}
+            style={{
+              borderRadius: "50%"
+            }}
           >
-            Xác nhận
+            <span className="absolute -top-8 -right-8 text-6xl">
+              {category.icon}
+            </span>
+            {category.name}
+            {selectedCategory === category.id && (
+              <span className="absolute top-2 right-2 text-3xl text-green-700 animate-bounce">
+                ✔
+              </span>
+            )}
           </button>
-        </div>
+        ))}
       </div>
+
+      {/* Chọn loại câu hỏi */}
+      {selectedCategory && (
+        <div className="mt-8 text-center">
+          <h3 className="text-3xl font-semibold text-white mb-8">
+            Bạn muốn chọn loại câu hỏi nào?
+          </h3>
+          <div className="flex justify-center space-x-10">
+            <button
+              onClick={() => handleGenderChange("male")}
+              className={`py-4 px-8 rounded-lg shadow-lg text-white font-bold text-xl transition-all duration-300 transform hover:scale-110 ${
+                selectedGender === "male"
+                  ? "bg-blue-600 text-white animate-pulse"
+                  : "bg-blue-400 hover:bg-blue-600"
+              }`}
+            >
+              Nam
+            </button>
+            <button
+              onClick={() => handleGenderChange("female")}
+              className={`py-4 px-8 rounded-lg shadow-lg text-white font-bold text-xl transition-all duration-300 transform hover:scale-110 ${
+                selectedGender === "female"
+                  ? "bg-pink-600 text-white animate-pulse"
+                  : "bg-pink-400 hover:bg-pink-600"
+              }`}
+            >
+              Nữ
+            </button>
+            <button
+              onClick={() => handleGenderChange("both")}
+              className={`py-4 px-8 rounded-lg shadow-lg text-white font-bold text-xl transition-all duration-300 transform hover:scale-110 ${
+                selectedGender === "both"
+                  ? "bg-purple-600 text-white animate-pulse"
+                  : "bg-purple-400 hover:bg-purple-600"
+              }`}
+            >
+              Cả hai
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Hiển thị lựa chọn */}
+      {selectedCategory && selectedGender && (
+        <div className="mt-10">
+          <GeneralButton onClick={handleCategorySelection}>
+            Tiếp tục
+          </GeneralButton>
+        </div>
+      )}
     </div>
   );
 };

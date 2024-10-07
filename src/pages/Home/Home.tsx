@@ -6,22 +6,19 @@ interface HomeProps {
 
 const Home: React.FC<HomeProps> = ({ handleQuizSelection }) => {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100">
+    <div className="min-h-screen flex flex-col justify-center items-center">
       {/* Phần 1: Gồm 2 button lớn */}
       <div className="flex flex-col space-y-6 md:space-y-0 md:flex-row md:space-x-8">
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg shadow-lg text-xl transition-all duration-300"
+        <Button
+          label="Tự trả lời câu hỏi"
+          color="blue"
           onClick={() => handleQuizSelection("self")}
-        >
-          Tự trả lời câu hỏi
-        </button>
-
-        <button
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-lg shadow-lg text-xl transition-all duration-300"
+        />
+        <Button
+          label="Tạo câu hỏi cho người khác"
+          color="green"
           onClick={() => handleQuizSelection("partner")}
-        >
-          Tạo câu hỏi cho người khác
-        </button>
+        />
       </div>
 
       {/* Phần 2: Bạn có thể thêm nội dung khác ở đây */}
@@ -33,3 +30,20 @@ const Home: React.FC<HomeProps> = ({ handleQuizSelection }) => {
 };
 
 export default Home;
+
+const Button = ({
+  label,
+  color,
+  onClick
+}: {
+  label: string;
+  color: string;
+  onClick: () => void;
+}) => (
+  <button
+    className={`bg-${color}-500 hover:bg-${color}-700 text-white font-bold py-4 px-8 rounded-lg shadow-lg text-xl transition-all duration-300`}
+    onClick={onClick}
+  >
+    {label}
+  </button>
+);
